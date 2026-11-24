@@ -11,4 +11,6 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - `skills/*` 를 `~/.claude/skills/` 에 심볼릭 링크로 건다. 같은 이름이 이미 있으면 `~/.claude/backups/setup-<시각>/` 으로 옮긴다.
 - `~/.zshrc` 에 `shell/aliases.zsh` 를 불러오는 한 줄을 넣는다 (`cc` = 권한 확인 없이 Claude Code 실행).
 
+- caveman 플러그인을 설치하고 `~/.config/caveman/config.json` 을 `config/caveman/config.json` 에 링크한다. 모든 새 세션이 caveman 모드로 시작한다 (node 필요. 끄려면 그 파일의 `defaultMode` 를 `"off"` 로).
+
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.
