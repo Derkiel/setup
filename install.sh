@@ -51,6 +51,30 @@ else
   echo "added    $RC (새 터미널부터 cc 사용 가능)"
 fi
 
+# 터미널(macOS + Homebrew): D2Coding 글꼴, cmux(Ghostty 엔진 기반, 에이전트 여러 개를 사이드바로 관리).
+# 글꼴 설정은 ~/.config/ghostty/config 한 곳에 두면 Ghostty 와 cmux 가 함께 읽는다.
+link "$REPO/config/ghostty/config" "$HOME/.config/ghostty/config"
+# cmux 는 사용 통계 전송이 기본으로 켜져 있어 끈 설정을 넣는다. 앱이 이 파일을 고쳐 쓸 수 있어 링크가 아니라 복사하고, 이미 있으면 건드리지 않는다.
+if [ -e "$HOME/.config/cmux/cmux.json" ]; then
+  echo "ok       $HOME/.config/cmux/cmux.json"
+else
+  mkdir -p "$HOME/.config/cmux"; cp "$REPO/config/cmux/cmux.json" "$HOME/.config/cmux/cmux.json"
+  echo "added    $HOME/.config/cmux/cmux.json (사용 통계 전송 끔)"
+fi
+if [ "$(uname)" = Darwin ] && command -v brew >/dev/null 2>&1; then
+  if ls "$HOME/Library/Fonts" /Library/Fonts 2>/dev/null | grep -qi '^D2Coding'; then
+    echo "ok       font D2Coding"
+  elif brew install --cask font-d2coding >/dev/null 2>&1 </dev/null; then echo "installed font D2Coding"; else echo "실패: font D2Coding"; fi
+  if [ -d /Applications/cmux.app ]; then
+    echo "ok       cmux"
+  else
+    brew tap manaflow-ai/cmux >/dev/null 2>&1 </dev/null || true
+    if brew install --cask cmux >/dev/null 2>&1 </dev/null; then echo "installed cmux"; else echo "실패: cmux"; fi
+  fi
+else
+  echo "주의: macOS + Homebrew 가 아니어서 D2Coding 글꼴과 cmux 를 설치하지 못했습니다."
+fi
+
 # rtk-oss (Apache-2.0 판): Bash 명령 출력을 줄여서 Claude 에 넘긴다. 공식 설치 스크립트는 체크섬을 확인하고 ~/.local/bin 에 둔다.
 # 훅만 건다(--hook-only): CLAUDE.md 는 건드리지 않는다. 텔레메트리는 기본 꺼짐, 프록시는 설치하지 않는다.
 RTK="$HOME/.local/bin/rtk"
