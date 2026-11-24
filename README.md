@@ -19,5 +19,6 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - 플러그인 ponytail, frontend-design, claude-md-management, skill-creator, context7 과 외부 스킬 11개(Emil Kowalski 디자인·모션 7, Vercel 3, Remotion 1)를 설치한다.
 - mattpocock-skills 플러그인을 설치하고, 수동 전용 스킬 10개를 Claude 가 알아서 부르도록 세션 시작 훅(`tools/skill_autoinvoke.py`)을 건다.
 - Playwright MCP 를 사용자 범위로 등록한다.
+- 스킬 라우팅 표(`claude/skill-routing.md`)를 `~/.claude/skill-routing.md` 에 링크하고 전역 `CLAUDE.md` 에 `@skill-routing.md` 한 줄을 넣는다. Claude 가 상황에 맞는 스킬을 알아서 고른다.
 
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.

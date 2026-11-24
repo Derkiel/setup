@@ -26,6 +26,19 @@ for src in "$REPO"/skills/*/; do
   link "$src" "$HOME/.claude/skills/$(basename "$src")"
 done
 
+# 스킬 라우팅 표: 어떤 상황에 어떤 스킬을 부를지. 전역 CLAUDE.md 가 이 파일을 불러오게 한다(@가져오기).
+# CLAUDE.md 에 이미 같은 표를 직접 적어 둔 기기에서는 규칙이 두 벌이 되지 않게 건너뛴다.
+link "$REPO/claude/skill-routing.md" "$HOME/.claude/skill-routing.md"
+MD="$HOME/.claude/CLAUDE.md"
+if grep -qxF "@skill-routing.md" "$MD" 2>/dev/null; then
+  echo "ok       $MD (@skill-routing.md)"
+elif grep -q "^## Skill routing" "$MD" 2>/dev/null; then
+  echo "skip     $MD 에 라우팅 표가 이미 직접 적혀 있습니다. 레포 것을 쓰려면 그 절을 지우고 다시 실행하세요."
+else
+  printf '%s@skill-routing.md\n' "$([ -s "$MD" ] && printf '\n')" >> "$MD"
+  echo "added    $MD (@skill-routing.md)"
+fi
+
 # caveman: 플러그인이 켜져 있으면 세션 시작 훅이 매번 자동으로 켠다. 시작 모드는 이 설정 파일이 정한다.
 link "$REPO/config/caveman/config.json" "$HOME/.config/caveman/config.json"
 
