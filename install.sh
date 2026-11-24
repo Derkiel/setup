@@ -21,6 +21,32 @@ link() {
   echo "linked   $2"
 }
 
+# 새 맥 준비: Homebrew, node, Claude Code 와 기본 명령줄 도구가 없으면 설치한다.
+# Homebrew 설치는 맥 비밀번호를 묻는다. 이미 있는 것은 건드리지 않는다.
+if [ "$(uname)" = Darwin ]; then
+  [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+  if ! command -v brew >/dev/null 2>&1; then
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    [ -x /opt/homebrew/bin/brew ] && eval "$(/opt/homebrew/bin/brew shellenv)"
+    echo "installed Homebrew"
+  fi
+  # "명령 이름:Homebrew 패키지". gopls·jdtls·kotlin-lsp 는 Go·Java·Kotlin 코드 탐색(LSP 플러그인)이 부르는 언어 서버다.
+  # Go·JDK 같은 언어 런타임 자체는 회사 프로젝트가 정한 버전을 mise 로 맞춘다.
+  for pair in node:node gh:gh jq:jq yq:yq fd:fd mise:mise gopls:gopls jdtls:jdtls kotlin-lsp:kotlin-lsp; do
+    if command -v "${pair%%:*}" >/dev/null 2>&1; then
+      echo "ok       ${pair%%:*}"
+    elif brew install "${pair##*:}" >/dev/null 2>&1 </dev/null; then echo "installed ${pair%%:*}"; else echo "실패: brew install ${pair##*:}"; fi
+  done
+fi
+PATH="$HOME/.local/bin:$PATH"
+if ! command -v claude >/dev/null 2>&1; then
+  if curl -fsSL https://claude.ai/install.sh | bash >/dev/null 2>&1; then echo "installed Claude Code (처음이면 claude 를 한 번 실행해 로그인하세요)"; else echo "실패: Claude Code 설치"; fi
+fi
+# 회사가 Claude Code 를 관리하는 기기인지 알려 준다. 관리 설정이 있으면 bypass 모드(cc)나 플러그인·훅이 막혀 있을 수 있다.
+for f in "/Library/Application Support/ClaudeCode/managed-settings.json" "/Library/Application Support/ClaudeCode/managed-settings.d" "/Library/Managed Preferences/com.anthropic.claudecode.plist"; do
+  [ -e "$f" ] && echo "주의: 회사 관리 설정이 있습니다: $f (claude 안에서 /status 로 적용 내용을 확인하세요)"
+done
+
 for src in "$REPO"/skills/*/; do
   src=${src%/}
   link "$src" "$HOME/.claude/skills/$(basename "$src")"
@@ -147,7 +173,10 @@ DietrichGebert/ponytail ponytail@ponytail
 anthropics/claude-plugins-official frontend-design@claude-plugins-official
 anthropics/claude-plugins-official claude-md-management@claude-plugins-official
 anthropics/claude-plugins-official skill-creator@claude-plugins-official
-anthropics/claude-plugins-official context7@claude-plugins-official"
+anthropics/claude-plugins-official context7@claude-plugins-official
+anthropics/claude-plugins-official gopls-lsp@claude-plugins-official
+anthropics/claude-plugins-official jdtls-lsp@claude-plugins-official
+anthropics/claude-plugins-official kotlin-lsp@claude-plugins-official"
 if command -v claude >/dev/null 2>&1; then
   echo "$PLUGINS" | while read -r market plugin; do
     if claude plugin list 2>/dev/null </dev/null | grep -qF "$plugin"; then
@@ -194,3 +223,33 @@ else:
     print("added    hook skill_autoinvoke")
 PY
 python3 "$HOME/.claude/tools/skill_autoinvoke.py"  # 지금 설치된 스킬에도 바로 적용
+
+# 비밀 파일 읽기 금지: bypass 모드(cc)에서도 적용된다. 이미 있는 규칙은 두고 없는 것만 더한다.
+# 막는 범위는 Claude 의 파일 도구(Read, 검색)까지다. 셸 명령(cat .env)은 막지 못한다(2026-11-24 시험). 그것까지 막으려면 /sandbox 가 필요하다.
+# .env 는 어느 깊이에 있어도 막고, 예시 파일(.env.example 등)은 읽을 수 있게 뺀다.
+python3 - "$HOME/.claude/settings.json" <<'PY'
+import json, os, sys
+path = sys.argv[1]
+RULES = [
+    "Read(.env)", "Read(.env.*)", "Read(!.env.example)", "Read(!.env.sample)", "Read(!.env.template)",
+    "Read(~/.ssh/**)", "Read(~/.aws/**)", "Read(~/.kube/**)", "Read(~/.config/gcloud/**)", "Read(~/.gnupg/**)",
+]
+try:
+    with open(path, encoding="utf-8") as f:
+        cfg = json.load(f)
+except FileNotFoundError:
+    cfg = {}
+deny = cfg.setdefault("permissions", {}).setdefault("deny", [])
+new = [r for r in RULES if r not in deny]
+if not new:
+    print("ok       비밀 파일 읽기 금지 규칙")
+else:
+    deny.extend(new)
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    os.replace(tmp, path)
+    print("added    비밀 파일 읽기 금지 규칙 %d개" % len(new))
+PY
