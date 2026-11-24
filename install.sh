@@ -38,6 +38,41 @@ else
   echo "added    $RC (새 터미널부터 cc 사용 가능)"
 fi
 
+# rtk-oss (Apache-2.0 판): Bash 명령 출력을 줄여서 Claude 에 넘긴다. 공식 설치 스크립트는 체크섬을 확인하고 ~/.local/bin 에 둔다.
+# 훅만 건다(--hook-only): CLAUDE.md 는 건드리지 않는다. 텔레메트리는 기본 꺼짐, 프록시는 설치하지 않는다.
+RTK="$HOME/.local/bin/rtk"
+command -v rtk >/dev/null 2>&1 && RTK=$(command -v rtk)
+if [ ! -x "$RTK" ]; then
+  curl -fsSL https://raw.githubusercontent.com/rtk-ai/rtk/refs/heads/master/install.sh | RTK_EDITION=oss sh >/dev/null
+  echo "installed rtk $("$RTK" --version)"
+fi
+if grep -q '"rtk hook claude"' "$HOME/.claude/settings.json" 2>/dev/null; then
+  echo "ok       rtk hook"
+else
+  "$RTK" init -g --hook-only --auto-patch --no-trust-filters </dev/null >/dev/null
+  echo "added    rtk hook (Claude Code 를 다시 시작하면 적용)"
+fi
+
+# agent-browser: 브라우저 자동화 CLI + Claude 가 그것을 찾아 쓰게 하는 스킬
+if command -v npm >/dev/null 2>&1; then
+  if ! command -v agent-browser >/dev/null 2>&1; then
+    npm install -g agent-browser >/dev/null
+    echo "installed agent-browser"
+  fi
+  if [ ! -d "$HOME/.agent-browser/browsers" ]; then
+    agent-browser install >/dev/null
+    echo "installed agent-browser 용 Chrome"
+  fi
+  if [ -e "$HOME/.claude/skills/agent-browser/SKILL.md" ]; then
+    echo "ok       skill agent-browser"
+  else
+    (cd "$HOME" && DISABLE_TELEMETRY=1 npx -y skills add vercel-labs/agent-browser -g -a claude-code -y >/dev/null 2>&1)
+    echo "installed skill agent-browser"
+  fi
+else
+  echo "주의: npm 이 없어 agent-browser 를 설치하지 못했습니다. node 설치 뒤 install.sh 를 다시 실행하세요."
+fi
+
 command -v node >/dev/null 2>&1 || echo "주의: node 가 없습니다. caveman 자동 켜기 훅은 node 로 돌므로, 없으면 조용히 꺼진 채 시작합니다. node 를 설치하세요."
 
 # 플러그인: "마켓플레이스 저장소  플러그인@마켓플레이스". caveman 은 플러그인만 쓴다(npm CLI 는 외부 전송·과금 경로가 있어 넣지 않는다)
