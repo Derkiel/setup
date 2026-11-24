@@ -1,0 +1,9 @@
+{"title":"커피 취향","why":"원두 추천 기준을 잡기 위해",
+ "questions":[
+  {"id":"roast","type":"single","label":"로스팅","required":true,"other":true,
+   "options":[{"value":"light","label":"라이트","desc":"산미, 과일향"},{"value":"medium","label":"미디엄","desc":"균형","recommended":true},{"value":"dark","label":"다크","desc":"쓴맛, 바디"}]},
+  {"id":"strength","type":"scale","label":"진하기","min":1,"max":5,"min_label":"연하게","max_label":"진하게"},
+  {"id":"milk","type":"multi","label":"즐기는 방식","options":["에스프레소","아메리카노","라떼","드립"]},
+  {"id":"latte_milk","type":"single","label":"라떼 우유","options":["일반","오트","두유"],"show_if":{"q":"milk","in":["라떼"]}},
+  {"id":"note","type":"text","label":"기타","placeholder":"선택"}
+ ]}

@@ -1,0 +1,15 @@
+{"title":"리치 콘텐츠 테스트","why":"콘텐츠 블록과 조건부 질문 검증","intro":"<b>intro HTML</b> 확인",
+ "content":[
+  {"type":"markdown","text":"## 마크다운\n- 항목 1\n- 항목 2\n\n`inline code` 와 **굵게**"},
+  {"type":"code","lang":"py","text":"def f(x):\n    return x*2","caption":"코드 캡션"},
+  {"type":"diff","text":"--- a\n+++ b\n@@ -1 +1 @@\n-old line\n+new line\n context"},
+  {"type":"image","src":"example-390.png","caption":"로컬 파일 이미지"},
+  {"type":"html","text":"<button style='font-size:20px;padding:8px 16px'>라이브 버튼</button><p>iframe 안</p>","height":120},
+  {"type":"mermaid","text":"graph LR; A[ask]-->B[wait]-->C[answer]"},
+  {"type":"compare","items":[{"label":"A","image":"example-390.png"},{"label":"B","html":"<div style='background:#fde;padding:20px'>B 변형</div>","height":120},{"label":"C","code":"x = 1"}]}
+ ],
+ "questions":[
+  {"id":"pick","type":"single","label":"어느 쪽?","required":true,"options":[{"value":"a","label":"A","recommended":true},{"value":"b","label":"B"}]},
+  {"id":"why_b","type":"text","label":"B를 고른 이유","show_if":{"q":"pick","eq":"b"},"required":true},
+  {"id":"vis","type":"image","label":"라이브 HTML 옵션","options":[{"value":"x","label":"X","html":"<div style='background:#cfe;height:100%'>X</div>"},{"value":"y","label":"Y","img":"example-390.png"}]}
+ ]}
