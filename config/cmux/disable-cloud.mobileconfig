@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>PayloadDisplayName</key>
+	<string>cmux: Cloud 끄기</string>
+	<key>PayloadDescription</key>
+	<string>cmux 의 Cloud Machines 화면과 기능을 끈다 (DisableCloud). 로컬 터미널에는 영향이 없다. 이 프로파일을 지우면 원래대로 돌아온다.</string>
+	<key>PayloadIdentifier</key>
+	<string>setup.cmux.disable-cloud</string>
+	<key>PayloadUUID</key>
+	<string>6C1B0B5E-6C0B-4E0E-9B5E-2A8E5F0C7A11</string>
+	<key>PayloadType</key>
+	<string>Configuration</string>
+	<key>PayloadVersion</key>
+	<integer>1</integer>
+	<key>PayloadScope</key>
+	<string>System</string>
+	<key>PayloadContent</key>
+	<array>
+		<dict>
+			<key>PayloadDisplayName</key>
+			<string>cmux 정책</string>
+			<key>PayloadIdentifier</key>
+			<string>setup.cmux.disable-cloud.preferences</string>
+			<key>PayloadUUID</key>
+			<string>0E7D3C52-4B7A-4F6D-8C33-91D2B6A4E7F2</string>
+			<key>PayloadType</key>
+			<string>com.apple.ManagedClient.preferences</string>
+			<key>PayloadVersion</key>
+			<integer>1</integer>
+			<key>PayloadContent</key>
+			<dict>
+				<key>com.cmuxterm.app</key>
+				<dict>
+					<key>Forced</key>
+					<array>
+						<dict>
+							<key>mcx_preference_settings</key>
+							<dict>
+								<key>DisableCloud</key>
+								<true/>
+							</dict>
+						</dict>
+					</array>
+				</dict>
+			</dict>
+		</dict>
+	</array>
+</dict>
+</plist>

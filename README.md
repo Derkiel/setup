@@ -20,6 +20,7 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - mattpocock-skills 플러그인을 설치하고, 수동 전용 스킬 10개를 Claude 가 알아서 부르도록 세션 시작 훅(`tools/skill_autoinvoke.py`)을 건다.
 - Playwright MCP 를 사용자 범위로 등록한다.
 - macOS: D2Coding 글꼴과 cmux 를 Homebrew 로 설치하고, 글꼴 설정(`config/ghostty/config`)을 `~/.config/ghostty/config` 에 링크한다(Ghostty 와 cmux 가 함께 읽는다). cmux 사용 통계 전송은 끈다.
+- cmux 의 Cloud·로그인 화면을 끄는 구성 프로파일(`config/cmux/disable-cloud.mobileconfig`)을 연다. 설치 승인은 시스템 설정 > 일반 > 기기 관리 에서 직접 한 번 해야 한다(macOS 가 자동 설치를 막는다). 재시동과 cmux 업데이트 뒤에도 유지된다.
 - 스킬 라우팅 표(`claude/skill-routing.md`)를 `~/.claude/skill-routing.md` 에 링크하고 전역 `CLAUDE.md` 에 `@skill-routing.md` 한 줄을 넣는다. Claude 가 상황에 맞는 스킬을 알아서 고른다.
 
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.

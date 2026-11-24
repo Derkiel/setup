@@ -71,6 +71,20 @@ if [ "$(uname)" = Darwin ] && command -v brew >/dev/null 2>&1; then
     brew tap manaflow-ai/cmux >/dev/null 2>&1 </dev/null || true
     if brew install --cask cmux >/dev/null 2>&1 </dev/null; then echo "installed cmux"; else echo "실패: cmux"; fi
   fi
+  # cmux 의 Cloud·로그인 화면 끄기. cmux 는 구성 프로파일로 강제된 값만 인정한다(defaults write 는 무시).
+  # 프로파일은 재시동과 cmux 업데이트 뒤에도 남는다. macOS 가 자동 설치를 막아 두어서 승인은 사람이 한 번 해야 한다.
+  cloud_off() {
+    for f in "/Library/Managed Preferences/com.cmuxterm.app" "/Library/Managed Preferences/$(id -un)/com.cmuxterm.app"; do
+      [ "$(defaults read "$f" DisableCloud 2>/dev/null)" = 1 ] && return 0
+    done
+    return 1
+  }
+  if cloud_off; then
+    echo "ok       cmux Cloud 끔 (구성 프로파일)"
+  else
+    open "$REPO/config/cmux/disable-cloud.mobileconfig"
+    echo "할 일:   시스템 설정 > 일반 > 기기 관리 에서 'cmux: Cloud 끄기' 프로파일을 설치하세요(한 번만). 그 뒤 cmux 를 다시 켜면 Cloud 화면이 사라집니다."
+  fi
 else
   echo "주의: macOS + Homebrew 가 아니어서 D2Coding 글꼴과 cmux 를 설치하지 못했습니다."
 fi
