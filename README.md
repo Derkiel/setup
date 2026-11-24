@@ -16,4 +16,7 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - rtk-oss 를 `~/.local/bin` 에 설치하고 Claude Code 에 훅을 건다 (Bash 출력 압축. 텔레메트리 꺼짐, 프록시 없음. 빼려면 `rtk init -g --uninstall`).
 - agent-browser CLI, 전용 Chrome, 스킬을 설치한다 (npm 필요).
 
+- mattpocock-skills 플러그인을 설치하고, 수동 전용 스킬 10개를 Claude 가 알아서 부르도록 세션 시작 훅(`tools/skill_autoinvoke.py`)을 건다.
+- Playwright MCP 를 사용자 범위로 등록한다.
+
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.

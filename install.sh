@@ -76,7 +76,8 @@ fi
 command -v node >/dev/null 2>&1 || echo "주의: node 가 없습니다. caveman 자동 켜기 훅은 node 로 돌므로, 없으면 조용히 꺼진 채 시작합니다. node 를 설치하세요."
 
 # 플러그인: "마켓플레이스 저장소  플러그인@마켓플레이스". caveman 은 플러그인만 쓴다(npm CLI 는 외부 전송·과금 경로가 있어 넣지 않는다)
-PLUGINS="JuliusBrussee/caveman caveman@caveman"
+PLUGINS="JuliusBrussee/caveman caveman@caveman
+anthropics/claude-plugins-official mattpocock-skills@claude-plugins-official"
 if command -v claude >/dev/null 2>&1; then
   echo "$PLUGINS" | while read -r market plugin; do
     if claude plugin list 2>/dev/null | grep -qF "$plugin"; then
@@ -87,6 +88,39 @@ if command -v claude >/dev/null 2>&1; then
       claude plugin install "$plugin" >/dev/null && echo "installed plugin $plugin"
     fi
   done
+  # Playwright MCP: 브라우저를 직접 조작하는 도구(화면 검증, 네이버 카페 읽기)
+  if claude mcp get playwright >/dev/null 2>&1; then
+    echo "ok       mcp playwright"
+  else
+    claude mcp add -s user playwright -- npx -y @playwright/mcp@latest >/dev/null && echo "added    mcp playwright"
+  fi
 else
   echo "주의: claude 명령이 없어 플러그인($PLUGINS)을 설치하지 못했습니다. Claude Code 설치 뒤 install.sh 를 다시 실행하세요: https://claude.com/claude-code"
 fi
+
+# mattpocock 스킬 중 수동 전용(/이름)으로 배포된 것을 Claude 가 알아서 부를 수 있게 바꾼다.
+# 플러그인이 갱신되면 원래대로 돌아가므로 세션 시작 훅으로 매번 돌린다(대상 목록은 tools/skill_autoinvoke.py 안).
+link "$REPO/tools/skill_autoinvoke.py" "$HOME/.claude/tools/skill_autoinvoke.py"
+HOOK='python3 ~/.claude/tools/skill_autoinvoke.py --quiet'
+python3 - "$HOME/.claude/settings.json" "$HOOK" <<'PY'
+import json, os, sys
+path, cmd = sys.argv[1], sys.argv[2]
+try:
+    with open(path, encoding="utf-8") as f:
+        cfg = json.load(f)
+except FileNotFoundError:
+    cfg = {}
+groups = cfg.setdefault("hooks", {}).setdefault("SessionStart", [])
+if any(h.get("command") == cmd for g in groups for h in g.get("hooks", [])):
+    print("ok       hook skill_autoinvoke")
+else:
+    groups.append({"matcher": "", "hooks": [{"type": "command", "command": cmd}]})
+    os.makedirs(os.path.dirname(path), exist_ok=True)
+    tmp = path + ".tmp"
+    with open(tmp, "w", encoding="utf-8") as f:
+        json.dump(cfg, f, ensure_ascii=False, indent=2)
+        f.write("\n")
+    os.replace(tmp, path)
+    print("added    hook skill_autoinvoke")
+PY
+python3 "$HOME/.claude/tools/skill_autoinvoke.py"  # 지금 설치된 스킬에도 바로 적용
