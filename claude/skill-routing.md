@@ -29,7 +29,6 @@ Everything named here is installed by `install.sh` in the setup repo. Plugin ski
 - Motion: `animate` to build it, then `review-animations`; jank or dropped frames: `animation-performance`. Gesture-driven or Apple-style interaction: `apple-design`.
 - UI review: `web-design-guidelines`. Edge-case stress test: `break-ui`.
 - React or Next.js performance: `vercel-react-best-practices`. Component API shape: `vercel-composition-patterns`.
-- Remotion project: `remotion-best-practices`.
 
 ## Asking the user and showing work
 

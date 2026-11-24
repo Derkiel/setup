@@ -176,8 +176,7 @@ if command -v npm >/dev/null 2>&1; then
   # 외부 스킬: "저장소  스킬 이름들". 이미 있는 스킬은 건너뛴다(갱신은 `npx skills update -g`).
   SKILLS="vercel-labs/agent-browser agent-browser
 emilkowalski/skills animate animation-performance apple-design break-ui emil-design-eng prototype review-animations
-vercel-labs/agent-skills vercel-react-best-practices vercel-composition-patterns web-design-guidelines
-remotion-dev/skills remotion-best-practices"
+vercel-labs/agent-skills vercel-react-best-practices vercel-composition-patterns web-design-guidelines"
   echo "$SKILLS" | while read -r repo names; do
     want=""
     for n in $names; do

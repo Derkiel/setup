@@ -6,14 +6,7 @@
 git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 ```
 
-아무것도 없는 새 맥에서는 이 레포가 비공개라 GitHub 로그인이 먼저 필요하다:
-
-```sh
-/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
-eval "$(/opt/homebrew/bin/brew shellenv)"
-brew install gh && gh auth login
-gh repo clone Derkiel/setup ~/setup && ~/setup/install.sh
-```
+아무것도 없는 새 맥에서는 `git` 을 처음 실행할 때 macOS 가 명령줄 개발자 도구 설치를 묻는다. 설치가 끝난 뒤 위 명령을 다시 실행한다.
 
 끝나면 새 터미널을 열고 `claude` 를 한 번 실행해 로그인한다.
 
@@ -27,7 +20,7 @@ gh repo clone Derkiel/setup ~/setup && ~/setup/install.sh
 - rtk-oss 를 `~/.local/bin` 에 설치하고 Claude Code 에 훅을 건다 (Bash 출력 압축. 텔레메트리 꺼짐, 프록시 없음. 빼려면 `rtk init -g --uninstall`).
 - agent-browser CLI, 전용 Chrome, 스킬을 설치한다 (npm 필요).
 
-- 플러그인 ponytail, frontend-design, claude-md-management, skill-creator, context7 과 외부 스킬 11개(Emil Kowalski 디자인·모션 7, Vercel 3, Remotion 1)를 설치한다.
+- 플러그인 ponytail, frontend-design, claude-md-management, skill-creator, context7 과 외부 스킬 10개(Emil Kowalski 디자인·모션 7, Vercel 3)를 설치한다.
 - mattpocock-skills 플러그인을 설치하고, 수동 전용 스킬 10개를 Claude 가 알아서 부르도록 세션 시작 훅(`tools/skill_autoinvoke.py`)을 건다.
 - Playwright MCP 를 사용자 범위로 등록한다.
 - macOS: D2Coding 글꼴과 cmux 를 Homebrew 로 설치하고, 글꼴 설정(`config/ghostty/config`)을 `~/.config/ghostty/config` 에 링크한다(Ghostty 와 cmux 가 함께 읽는다). cmux 사용 통계 전송은 끈다.
