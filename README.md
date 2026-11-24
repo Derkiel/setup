@@ -16,6 +16,7 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - rtk-oss 를 `~/.local/bin` 에 설치하고 Claude Code 에 훅을 건다 (Bash 출력 압축. 텔레메트리 꺼짐, 프록시 없음. 빼려면 `rtk init -g --uninstall`).
 - agent-browser CLI, 전용 Chrome, 스킬을 설치한다 (npm 필요).
 
+- 플러그인 ponytail, frontend-design, claude-md-management, skill-creator, context7, swift-lsp 와 외부 스킬 11개(Emil Kowalski 디자인·모션 7, Vercel 3, Remotion 1)를 설치한다.
 - mattpocock-skills 플러그인을 설치하고, 수동 전용 스킬 10개를 Claude 가 알아서 부르도록 세션 시작 훅(`tools/skill_autoinvoke.py`)을 건다.
 - Playwright MCP 를 사용자 범위로 등록한다.
 

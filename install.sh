@@ -63,12 +63,26 @@ if command -v npm >/dev/null 2>&1; then
     agent-browser install >/dev/null
     echo "installed agent-browser 용 Chrome"
   fi
-  if [ -e "$HOME/.claude/skills/agent-browser/SKILL.md" ]; then
-    echo "ok       skill agent-browser"
-  else
-    (cd "$HOME" && DISABLE_TELEMETRY=1 npx -y skills add vercel-labs/agent-browser -g -a claude-code -y >/dev/null 2>&1)
-    echo "installed skill agent-browser"
-  fi
+  # 외부 스킬: "저장소  스킬 이름들". 이미 있는 스킬은 건너뛴다(갱신은 `npx skills update -g`).
+  SKILLS="vercel-labs/agent-browser agent-browser
+emilkowalski/skills animate animation-performance apple-design break-ui emil-design-eng prototype review-animations
+vercel-labs/agent-skills vercel-react-best-practices vercel-composition-patterns web-design-guidelines
+remotion-dev/skills remotion-best-practices"
+  echo "$SKILLS" | while read -r repo names; do
+    want=""
+    for n in $names; do
+      [ -e "$HOME/.claude/skills/$n/SKILL.md" ] || want="$want $n"
+    done
+    if [ -z "$want" ]; then
+      echo "ok       skills $repo"
+    else
+      # shellcheck disable=SC2086
+      (cd "$HOME" && DISABLE_TELEMETRY=1 npx -y skills add "$repo" -g -a claude-code -y -s $want >/dev/null 2>&1) </dev/null
+      for n in $want; do
+        [ -e "$HOME/.claude/skills/$n/SKILL.md" ] && echo "installed skill $n" || echo "실패: skill $n ($repo)"
+      done
+    fi
+  done
 else
   echo "주의: npm 이 없어 agent-browser 를 설치하지 못했습니다. node 설치 뒤 install.sh 를 다시 실행하세요."
 fi
@@ -77,15 +91,21 @@ command -v node >/dev/null 2>&1 || echo "주의: node 가 없습니다. caveman 
 
 # 플러그인: "마켓플레이스 저장소  플러그인@마켓플레이스". caveman 은 플러그인만 쓴다(npm CLI 는 외부 전송·과금 경로가 있어 넣지 않는다)
 PLUGINS="JuliusBrussee/caveman caveman@caveman
-anthropics/claude-plugins-official mattpocock-skills@claude-plugins-official"
+anthropics/claude-plugins-official mattpocock-skills@claude-plugins-official
+DietrichGebert/ponytail ponytail@ponytail
+anthropics/claude-plugins-official frontend-design@claude-plugins-official
+anthropics/claude-plugins-official claude-md-management@claude-plugins-official
+anthropics/claude-plugins-official skill-creator@claude-plugins-official
+anthropics/claude-plugins-official context7@claude-plugins-official
+anthropics/claude-plugins-official swift-lsp@claude-plugins-official"
 if command -v claude >/dev/null 2>&1; then
   echo "$PLUGINS" | while read -r market plugin; do
-    if claude plugin list 2>/dev/null | grep -qF "$plugin"; then
-      claude plugin enable "$plugin" >/dev/null 2>&1 || true  # 꺼져 있었으면 다시 켠다
+    if claude plugin list 2>/dev/null </dev/null | grep -qF "$plugin"; then
+      claude plugin enable "$plugin" >/dev/null 2>&1 </dev/null || true  # 꺼져 있었으면 다시 켠다
       echo "ok       plugin $plugin"
     else
-      claude plugin marketplace add "$market" >/dev/null 2>&1 || true  # 이미 등록돼 있으면 실패해도 된다
-      claude plugin install "$plugin" >/dev/null && echo "installed plugin $plugin"
+      claude plugin marketplace add "$market" >/dev/null 2>&1 </dev/null || true  # 이미 등록돼 있으면 실패해도 된다
+      if claude plugin install "$plugin" >/dev/null 2>&1 </dev/null; then echo "installed plugin $plugin"; else echo "실패: plugin $plugin"; fi
     fi
   done
   # Playwright MCP: 브라우저를 직접 조작하는 도구(화면 검증, 네이버 카페 읽기)
