@@ -96,8 +96,7 @@ DietrichGebert/ponytail ponytail@ponytail
 anthropics/claude-plugins-official frontend-design@claude-plugins-official
 anthropics/claude-plugins-official claude-md-management@claude-plugins-official
 anthropics/claude-plugins-official skill-creator@claude-plugins-official
-anthropics/claude-plugins-official context7@claude-plugins-official
-anthropics/claude-plugins-official swift-lsp@claude-plugins-official"
+anthropics/claude-plugins-official context7@claude-plugins-official"
 if command -v claude >/dev/null 2>&1; then
   echo "$PLUGINS" | while read -r market plugin; do
     if claude plugin list 2>/dev/null </dev/null | grep -qF "$plugin"; then
