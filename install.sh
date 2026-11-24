@@ -111,8 +111,41 @@ if [ "$(uname)" = Darwin ] && command -v brew >/dev/null 2>&1; then
     open "$REPO/config/cmux/disable-cloud.mobileconfig"
     echo "할 일:   시스템 설정 > 일반 > 기기 관리 에서 'cmux: Cloud 끄기' 프로파일을 설치하세요(한 번만). 그 뒤 cmux 를 다시 켜면 Cloud 화면이 사라집니다."
   fi
+  # BetterTouchTool: 앱을 설치하고, 새로 설치한 경우에만 프리셋(제스처·단축키·창 스냅) 가져오기 창을 띄운다.
+  # 라이선스 등록과 손쉬운 사용 권한 허용은 직접 해야 한다. 라이선스 파일은 이 레포에 넣지 않는다.
+  if [ -d /Applications/BetterTouchTool.app ]; then
+    echo "ok       BetterTouchTool (프리셋을 다시 넣으려면 config/btt/Default.bttpreset 를 더블클릭)"
+  elif brew install --cask bettertouchtool >/dev/null 2>&1 </dev/null; then
+    open -a BetterTouchTool "$REPO/config/btt/Default.bttpreset"
+    echo "installed BetterTouchTool (뜬 창에서 프리셋 가져오기를 승인하고, 손쉬운 사용 권한을 허용하세요)"
+  else echo "실패: BetterTouchTool"; fi
 else
   echo "주의: macOS + Homebrew 가 아니어서 D2Coding 글꼴과 cmux 를 설치하지 못했습니다."
+fi
+
+# 한/영 전환을 cmd+space 로(예전 macOS 방식). cmd+space 를 쓰던 Spotlight 단축키는 끈다.
+# 60 이전 입력 소스, 61 다음 입력 소스, 64 Spotlight, 65 Finder 검색. 숫자는 [문자, 키코드 49=space, 조합키].
+if [ "$(uname)" = Darwin ]; then
+  HOTKEYS=${HOTKEYS_DOMAIN:-com.apple.symbolichotkeys}
+  hotkey() { # <번호> <true|false> <문자> <조합키>
+    defaults write "$HOTKEYS" AppleSymbolicHotKeys -dict-add "$1" "<dict><key>enabled</key><$2/><key>value</key><dict><key>parameters</key><array><integer>$3</integer><integer>49</integer><integer>$4</integer></array><key>type</key><string>standard</string></dict></dict>"
+  }
+  if defaults export "$HOTKEYS" - 2>/dev/null | python3 -c '
+import plistlib, sys
+try: d = plistlib.loads(sys.stdin.buffer.read()).get("AppleSymbolicHotKeys", {})
+except Exception: d = {}
+k60, k64 = d.get("60", {}), d.get("64", {})
+ok = k60.get("enabled") and k60.get("value", {}).get("parameters") == [32, 49, 1048576] and k64.get("enabled") is False
+sys.exit(0 if ok else 1)'; then
+    echo "ok       한/영 전환 cmd+space"
+  else
+    hotkey 60 true 32 1048576   # cmd+space
+    hotkey 61 true 32 786432    # ctrl+opt+space
+    hotkey 64 false 65535 1048576
+    hotkey 65 false 65535 1572864
+    /System/Library/PrivateFrameworks/SystemAdministration.framework/Resources/activateSettings -u 2>/dev/null || true
+    echo "added    한/영 전환 cmd+space (안 먹으면 로그아웃 후 다시 로그인)"
+  fi
 fi
 
 # rtk-oss (Apache-2.0 판): Bash 명령 출력을 줄여서 Claude 에 넘긴다. 공식 설치 스크립트는 체크섬을 확인하고 ~/.local/bin 에 둔다.

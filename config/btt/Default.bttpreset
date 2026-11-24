@@ -1,0 +1,163 @@
+{
+  "BTTPresetName" : "Default",
+  "BTTPresetColor" : "248.370000, 4.967400, 199.689480, 255.000000",
+  "BTTPresetUUID" : "7EF101DF-7A20-4144-B50F-412B6291D9EE",
+  "BTTPresetContent" : [
+    {
+      "BTTAppBundleIdentifier" : "BT.G",
+      "BTTAppName" : "Global",
+      "BTTAppAutoInvertIcon" : 1,
+      "BTTAppSpecificSettings" : {
+        "BTTDisableGlobalTriggers" : false
+      },
+      "BTTTriggers" : [
+        {
+          "BTTLastUpdatedAt" : 1641676284.673429,
+          "BTTTriggerType" : 643,
+          "BTTTriggerTypeDescriptionReadOnly" : "명명된 트리거: 해당 없음",
+          "BTTTriggerClass" : "BTTTriggerTypeOtherTriggers",
+          "BTTUUID" : "05B60B5C-2CC4-40D6-BB44-76A814EFAB85",
+          "BTTOrder" : 0
+        },
+        {
+          "BTTLastUpdatedAt" : 1641676284.673429,
+          "BTTTriggerType" : 121,
+          "BTTTriggerTypeDescriptionReadOnly" : "4손가락 클릭",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "DE78BAA8-B734-4185-8770-647FDAEB2059",
+          "BTTPredefinedActionType" : 49,
+          "BTTPredefinedActionName" : "앱 실행  or  파일 열기  or  AppleScript 시작…",
+          "BTTLaunchPath" : "file:///Applications/Safari.app",
+          "BTTOrder" : 0
+        },
+        {
+          "BTTLastUpdatedAt" : 1641676284.673429,
+          "BTTTriggerType" : 183,
+          "BTTTriggerTypeDescriptionReadOnly" : "우측 상단 모서리 클릭",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "8D995AB9-808A-4EB5-9D0E-F020F2921A15",
+          "BTTPredefinedActionType" : 49,
+          "BTTPredefinedActionName" : "앱 실행  or  파일 열기  or  AppleScript 시작…",
+          "BTTLaunchPath" : "file:///Applications/Synology%20Chat.app",
+          "BTTOrder" : 1
+        },
+        {
+          "BTTLastUpdatedAt" : 1641676284.673429,
+          "BTTTriggerType" : 112,
+          "BTTTriggerTypeDescriptionReadOnly" : "3손가락 클릭",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "ED533D66-FDB1-410C-81EA-1117E162386A",
+          "BTTPredefinedActionType" : 21,
+          "BTTPredefinedActionName" : "윈도우 최대화",
+          "BTTOrder" : 2
+        },
+        {
+          "BTTLastUpdatedAt" : 1719353633.4989638,
+          "BTTTriggerType" : 107,
+          "BTTTriggerTypeDescriptionReadOnly" : "4손가락 아래로 스와이프",
+          "BTTTriggerClass" : "BTTTriggerTypeTouchpadAll",
+          "BTTUUID" : "111EADB3-60F5-4B2D-B0EF-04484AD6848B",
+          "BTTLayoutIndependentActionChar" : "h",
+          "BTTShortcutToSend" : "55,4",
+          "BTTOrder" : 3
+        },
+        {
+          "BTTLastUpdatedAt" : 1795488613.4180732,
+          "BTTTriggerType" : 0,
+          "BTTTriggerClass" : "BTTTriggerTypeKeyboardShortcut",
+          "BTTUUID" : "F543F3E5-DDFB-4802-8AE9-8905F3CBD21B",
+          "BTTPredefinedActionType" : 19,
+          "BTTPredefinedActionName" : "윈도우 왼쪽 절반 최대화",
+          "BTTAdditionalConfiguration" : "9699337",
+          "BTTShortcutKeyboardType" : 2132,
+          "BTTTriggerOnDown" : 1,
+          "BTTLayoutIndependentChar" : "LEFT",
+          "BTTShortcutKeyCode" : 123,
+          "BTTShortcutAdvancedModifierKeys" : "9699337",
+          "BTTShortcutModifierKeys" : 9699328,
+          "BTTOrder" : 3,
+          "BTTAutoAdaptToKeyboardLayout" : 0
+        },
+        {
+          "BTTLastUpdatedAt" : 1795488613.418045,
+          "BTTTriggerType" : 0,
+          "BTTTriggerClass" : "BTTTriggerTypeKeyboardShortcut",
+          "BTTUUID" : "B616A8BB-6CA1-4A64-A8CD-8FFE14F23EC5",
+          "BTTPredefinedActionType" : 20,
+          "BTTPredefinedActionName" : "윈도우 오른쪽 절반 최대화",
+          "BTTAdditionalConfiguration" : "9699337",
+          "BTTShortcutKeyboardType" : 2132,
+          "BTTTriggerOnDown" : 1,
+          "BTTLayoutIndependentChar" : "RIGHT",
+          "BTTShortcutKeyCode" : 124,
+          "BTTShortcutAdvancedModifierKeys" : "9699337",
+          "BTTShortcutModifierKeys" : 9699328,
+          "BTTOrder" : 4,
+          "BTTAutoAdaptToKeyboardLayout" : 0
+        },
+        {
+          "BTTLastUpdatedAt" : 1795350435.1572599,
+          "BTTTriggerType" : 0,
+          "BTTTriggerClass" : "BTTTriggerTypeKeyboardShortcut",
+          "BTTUUID" : "13BCB991-0EDB-4899-95B7-B1D17BED6604",
+          "BTTPredefinedActionType" : 13,
+          "BTTPredefinedActionName" : "디스플레이 잠자기",
+          "BTTAdditionalConfiguration" : "262145",
+          "BTTShortcutKeyboardType" : 2132,
+          "BTTTriggerOnDown" : 1,
+          "BTTLayoutIndependentChar" : "ESCAPE",
+          "BTTShortcutKeyCode" : 53,
+          "BTTShortcutAdvancedModifierKeys" : "262145",
+          "BTTShortcutModifierKeys" : 262144,
+          "BTTOrder" : 5,
+          "BTTAutoAdaptToKeyboardLayout" : 0
+        },
+        {
+          "BTTLastUpdatedAt" : 1795488613.4180799,
+          "BTTTriggerType" : 0,
+          "BTTTriggerClass" : "BTTTriggerTypeKeyboardShortcut",
+          "BTTUUID" : "F1A7C7D7-FFA6-4CF8-A65A-57A9EBC501E2",
+          "BTTAdditionalConfiguration" : "9699337",
+          "BTTShortcutKeyboardType" : 2132,
+          "BTTTriggerOnDown" : 1,
+          "BTTLayoutIndependentChar" : "UP",
+          "BTTShortcutKeyCode" : 126,
+          "BTTShortcutAdvancedModifierKeys" : "9699337",
+          "BTTShortcutModifierKeys" : 9699328,
+          "BTTOrder" : 6,
+          "BTTAutoAdaptToKeyboardLayout" : 0,
+          "BTTActionsToExecute" : [
+            {
+              "BTTLastUpdatedAt" : 1754743194.7285891,
+              "BTTTriggerParentUUID" : "F1A7C7D7-FFA6-4CF8-A65A-57A9EBC501E2",
+              "BTTIsPureAction" : true,
+              "BTTUUID" : "F2F255CA-B8FE-4BFC-8041-47C7201EAAB5",
+              "BTTPredefinedActionType" : 21,
+              "BTTPredefinedActionName" : "윈도우 최대화",
+              "BTTOrder" : 5
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "BTTAppBundleIdentifier" : "BT.L",
+      "BTTAppName" : "Recently Used",
+      "BTTAppAutoInvertIcon" : 1,
+      "BTTTriggers" : [
+
+      ]
+    },
+    {
+      "BTTAppBundleIdentifier" : "com.apple.finder",
+      "BTTAppName" : "Finder",
+      "BTTAppAutoInvertIcon" : 1,
+      "BTTTriggers" : [
+
+      ]
+    }
+  ],
+  "BTTPresetSnapAreas" : [
+
+  ]
+}

@@ -37,5 +37,7 @@ gh repo clone Derkiel/setup ~/setup && ~/setup/install.sh
 - Go·Java·Kotlin 코드 탐색: 언어 서버 `gopls`, `jdtls`, `kotlin-lsp` 와 공식 LSP 플러그인 3개. 언어 런타임(Go, JDK)은 프로젝트가 정한 버전을 `mise` 로 맞춘다.
 - 비밀 파일 읽기 금지 규칙(`.env`, `~/.ssh`, `~/.aws`, `~/.kube`, gcloud, gnupg)을 `settings.json` 에 더한다. Claude 의 파일 도구만 막고 셸 `cat` 은 막지 못한다.
 - 회사 관리 설정(`managed-settings.json`)이 있으면 알려 준다.
+- BetterTouchTool 을 설치하고 프리셋(`config/btt/Default.bttpreset`) 가져오기 창을 띄운다. 라이선스 등록과 권한 허용은 직접 한다.
+- 한/영 전환을 cmd+space 로 바꾸고 Spotlight 의 cmd+space 는 끈다.
 
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.
