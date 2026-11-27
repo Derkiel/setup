@@ -31,6 +31,7 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 - 비밀 파일 읽기 금지 규칙(`.env`, `~/.ssh`, `~/.aws`, `~/.kube`, gcloud, gnupg)을 `settings.json` 에 더한다. Claude 의 파일 도구만 막고 셸 `cat` 은 막지 못한다.
 - 회사 관리 설정(`managed-settings.json`)이 있으면 알려 준다.
 - BetterTouchTool 을 설치하고 프리셋(`config/btt/Default.bttpreset`) 가져오기 창을 띄운다. 라이선스 등록과 권한 허용은 직접 한다.
+- 앱 차단 토글(`tools/appblock.sh`)을 `~/.local/bin/appblock` 에 링크한다. BetterTouchTool 단축키의 액션 "Execute Shell Script / Task" 에 `~/.local/bin/appblock toggle` 을 넣으면, 켜져 있는 동안 `~/.config/appblock/apps` 에 적은 앱(한 줄에 하나)이 실행하는 순간 종료된다. 창이 뜨지 않고 포커스도 넘어가지 않으며 재부팅해도 유지된다. 목록 파일은 처음 켤 때 만들어지고 이 레포에는 넣지 않는다. 시험: `tools/test_appblock.sh` (체스와 스티커를 실제로 띄운다).
 - 한/영 전환을 cmd+space 로 바꾸고 Spotlight 의 cmd+space 는 끈다.
 
 레포 폴더를 옮기면 `install.sh` 를 다시 실행한다. 토큰과 키는 이 레포에 넣지 않는다.

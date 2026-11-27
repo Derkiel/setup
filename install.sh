@@ -123,6 +123,12 @@ else
   echo "주의: macOS + Homebrew 가 아니어서 D2Coding 글꼴과 cmux 를 설치하지 못했습니다."
 fi
 
+# 앱 차단 토글(macOS): BetterTouchTool 단축키에 "~/.local/bin/appblock toggle" 을 걸어 쓴다.
+# 차단할 앱 목록(~/.config/appblock/apps)은 기기마다 다른 개인 설정이라 이 레포에 넣지 않는다. 처음 켤 때 스크립트가 만들어 준다.
+if [ "$(uname)" = Darwin ]; then
+  link "$REPO/tools/appblock.sh" "$HOME/.local/bin/appblock"
+fi
+
 # 한/영 전환을 cmd+space 로(예전 macOS 방식). cmd+space 를 쓰던 Spotlight 단축키는 끈다.
 # 60 이전 입력 소스, 61 다음 입력 소스, 64 Spotlight, 65 Finder 검색. 숫자는 [문자, 키코드 49=space, 조합키].
 if [ "$(uname)" = Darwin ]; then
