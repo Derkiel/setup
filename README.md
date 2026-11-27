@@ -10,6 +10,14 @@ git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh
 
 끝나면 새 터미널을 열고 `claude` 를 한 번 실행해 로그인한다.
 
+앱 차단 토글만 설치하려면 (macOS. 다른 것은 설치하지도 건드리지도 않는다):
+
+```sh
+git clone https://github.com/Derkiel/setup.git ~/setup && ~/setup/install.sh appblock
+```
+
+레포를 이미 받아 둔 기기에서는 레포 폴더에서 `./install.sh appblock`.
+
 `install.sh` 가 하는 일 (여러 번 실행해도 안전):
 
 - `skills/*` 를 `~/.claude/skills/` 에 심볼릭 링크로 건다. 같은 이름이 이미 있으면 `~/.claude/backups/setup-<시각>/` 으로 옮긴다.

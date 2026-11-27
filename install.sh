@@ -21,6 +21,21 @@ link() {
   echo "linked   $2"
 }
 
+# 앱 차단 토글(macOS): BetterTouchTool 단축키에 "~/.local/bin/appblock toggle" 을 걸어 쓴다.
+# 차단할 앱 목록(~/.config/appblock/apps)은 기기마다 다른 개인 설정이라 이 레포에 넣지 않는다. 처음 켤 때 스크립트가 만들어 준다.
+appblock() {
+  [ "$(uname)" = Darwin ] || { echo "건너뜀:  appblock (macOS 전용)"; return 0; }
+  link "$REPO/tools/appblock.sh" "$HOME/.local/bin/appblock"
+  [ -e "$HOME/.config/appblock/apps" ] || echo "할 일:   BetterTouchTool 단축키의 액션 \"Execute Shell Script / Task\" 에 ~/.local/bin/appblock toggle 을 넣으세요. 처음 누르면 막을 앱을 적는 목록 파일이 열립니다."
+}
+
+# ./install.sh appblock: 앱 차단 토글만 설치하고 끝낸다. 인자가 없으면 아래 전체를 설치한다.
+case "${1:-}" in
+  "") ;;
+  appblock) appblock; exit 0 ;;
+  *) echo "사용: $0 [appblock]" >&2; exit 2 ;;
+esac
+
 # 새 맥 준비: Homebrew, node, Claude Code 와 기본 명령줄 도구가 없으면 설치한다.
 # Homebrew 설치는 맥 비밀번호를 묻는다. 이미 있는 것은 건드리지 않는다.
 if [ "$(uname)" = Darwin ]; then
@@ -123,11 +138,7 @@ else
   echo "주의: macOS + Homebrew 가 아니어서 D2Coding 글꼴과 cmux 를 설치하지 못했습니다."
 fi
 
-# 앱 차단 토글(macOS): BetterTouchTool 단축키에 "~/.local/bin/appblock toggle" 을 걸어 쓴다.
-# 차단할 앱 목록(~/.config/appblock/apps)은 기기마다 다른 개인 설정이라 이 레포에 넣지 않는다. 처음 켤 때 스크립트가 만들어 준다.
-if [ "$(uname)" = Darwin ]; then
-  link "$REPO/tools/appblock.sh" "$HOME/.local/bin/appblock"
-fi
+appblock  # 앱 차단 토글 (함수는 위에 있다)
 
 # 한/영 전환을 cmd+space 로(예전 macOS 방식). cmd+space 를 쓰던 Spotlight 단축키는 끈다.
 # 60 이전 입력 소스, 61 다음 입력 소스, 64 Spotlight, 65 Finder 검색. 숫자는 [문자, 키코드 49=space, 조합키].
